@@ -1,0 +1,11 @@
+{
+    "params":
+    {
+      "place_endpoint": "https://www.google.com/search",
+      "host": "localhost",
+      "user": "root",
+      "passwd": "python@123",
+      "database": "python",
+      "api_key": "AIzaSyBLBe9b7P6ryXt6l5X6zCuYCw2RSXlij"
+    }
+}

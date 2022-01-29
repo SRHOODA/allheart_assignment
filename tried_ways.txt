@@ -1,0 +1,49 @@
+# response = requests.get('https://www.google.com/maps/search/resturants+in+karnal')  
+**above url did not work
+
+# response = requests.get(f'https://www.google.com/maps/search/dentists+in+delhi/@29.6904024,76.9922852,14z/data=!3m1!4b1') 
+**above url did not work as expected, so used below one for this assignment
+
+response = requests.get('https://www.google.com/search?q=dentists+in+karnal')
+
+
+***i have tried every possible way on my side but above urls did not work.
+
+soup = BeautifulSoup(response.text, 'html.parser')
+
+# search_results = soup.select('.siAUzd-neVct section-scrollbox cYB2Ge-oHo7ed cYB2Ge-ti6hGc siAUzd-neVct-Q3DXx-BvBYQ siAUzd-neVct-YbohUe-bnBfGc')
+# search_results = soup.select('.XS5mzc-on-hJDwNd-uMX1Ee siAUzd-neVct')
+# search_results = soup.select('.siAUzd-neVct siAUzd-neVct-Q3DXx-horizontal')
+# search_results = soup.select('.V0h1Ob-haAclf gd9aEe-LQLjdd OPZbO-KE6vqe')
+# search_results = soup.select('.aopO7e-clz4Ic aopO7e-clz4Ic-bottom-RWgCYc')
+# search_results = soup.select('.TFQHme')
+# search_results = soup.select('.siAUzd-neVct siAUzd-neVct-H9tDt')
+# search_results = soup.select('.siAUzd-neVct section-scrollbox cYB2Ge-oHo7ed cYB2Ge-ti6hGc siAUzd-neVct-Q3DXx-BvBYQ')
+# search_results = soup.select('.a4gq8e-aVTXAb-haAclf-jRmmHf-hSRGPd')
+# search_results = soup.select('.MVVflb-haAclf V0h1Ob-haAclf-d6wfac MVVflb-haAclf-uxVfW-hSRGPd')
+# search_results = soup.select('.Yr7JMd-pane-content cYB2Ge-oHo7ed')
+# search_results = soup.select('.Yr7JMd-pane-content-ZYyEqf')
+# search_results = soup.select('.CUwbzc-content gm2-body-2')
+
+# search_results = soup.find('div', attrs = {'class':'CUwbzc-content gm2-body-2'}) 
+# search_results = soup.find('div', attrs = {'class':'Yr7JMd-pane-content-ZYyEqf'}) 
+# search_results = soup.find('div', attrs = {'class':'Yr7JMd-pane-content cYB2Ge-oHo7ed'}) 
+# search_results = soup.find('div', attrs = {'class':'keynav-mode-off screen-mode'}) 
+# search_results = soup.find('div', attrs = {'class':'Yr7JMd-pane Yr7JMd-pane-visible'}) 
+# search_results = soup.find('div', attrs = {'class':'dbg0pd OSrXXb'}) 
+search_results = soup.find('div', attrs = {'class':'SMWA9c'}) 
+
+# search_results = soup.title
+# search_results = soup.p
+# search_results = soup.find_all('a')
+
+# for link in soup.find_all('a'):
+#     print(link.get('href'))
+
+# print(soup.get_text())
+# print(soup.attrs)
+
+# with open('checking.html','w') as f:
+#     f.write(soup.prettify())
+#     # f.write(soup.text)
+#     print('SUCCESS')
