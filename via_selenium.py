@@ -1,0 +1,104 @@
+######-----Data Extraction from Google Maps-----######################
+#Import neccesary libraries- pip install beautifulsoup4 selenium mysql-connector
+
+from selenium import webdriver              #driver to control chrome browser
+from bs4 import BeautifulSoup          #to parse the html code
+import time 
+import json
+import mysql.connector
+
+# import pandas as pd                   #to store data in csv file
+
+
+with open('config.json') as f:
+    params = json.load(f)['params']
+
+db = mysql.connector.connect(
+    host = params['host'], 
+    user = params['user'], 
+    passwd = params['passwd'], 
+    database = params['database']
+)
+
+#intiate the chrome webdriver instance
+browser=webdriver.Chrome()           # chrome instance 
+record=[]
+e=[]
+def Selenium_extractor():
+    time.sleep(3)
+    a=browser.find_elements_by_class_name("VkpGBb")
+    time.sleep(3)
+    print(f'this is length of a- {len(a)}')
+    for i in range(len(a)):
+        try:
+            a[i].click()
+            time.sleep(3)
+            source=browser.page_source
+            #Beautiful soup for scraping the html source
+            soup=BeautifulSoup(source,'html.parser')
+        
+            #this class changes- Name_Html=soup.findAll('h2',{"class":"qrShPb kno-ecr-pt PZPZlf q8U8x PPT5v EaHP9c"})
+            Name_Html=soup.findAll('div',{"class":"SPZz6b"})
+
+            name=Name_Html[0].text if len(Name_Html[0].text) > 0 else ''
+            if name not in e:
+                e.append(name)
+                # print(name)
+                Phone_Html=soup.findAll('span',{"class":"LrzXr zdqRlf kno-fv"})    
+                phone=Phone_Html[0].text if len(Phone_Html[0].text) > 0 else ''
+                print(phone)
+            
+                Address_Html=soup.findAll('span',{"class":"LrzXr"})
+                
+                address=Address_Html[0].text if len(Address_Html[0].text) > 0 else ''
+                print(f'address is- {address}')
+                    
+                Website_Html=soup.findAll('div',{"class":"QqG1Sd"})
+                web=Website_Html[0].findAll('a')
+            
+                website=web[0].get('href') if len(web[0].get('href')) > 0 else ''
+                #print(website)
+                record.append((name, phone, address, website))
+                
+                
+                #-----for DB--------
+                my_cursor = db.cursor() #create cursor object for executing queries
+
+                sql = "INSERT INTO places_and_location_info (name, phone_number, address, website) VALUES (%s, %s, %s, %s)"
+                val = (name[:40], phone, address, website)
+                my_cursor.execute(sql, val)
+                db.commit()
+                print('Saved in DB sucessfully')
+
+                # df=pd.DataFrame(record,columns=['Name','Phone number','Address','Website'])  # writing data to the file
+                # df.to_csv('filename' + '.csv',index=False,encoding='utf-8')
+
+        except:
+            print("something went wrong")
+            continue
+        
+    try:
+        time.sleep(3)            
+        next_button=browser.find_element_by_id("pnnext")                  # clicking the next button(maps > button id-  ppdPk-Ej1Yeb-LgbsSe-tJiF1e)
+        next_button.click()
+        browser.implicitly_wait(3)
+        time.sleep(3)
+        Selenium_extractor()
+    except:
+        print("ERROR occured at clicking next button.")
+        
+
+place_endpoint = params['place_endpoint']
+
+keyword = input('enter the keyword: ')
+location = input('enter the location : ')
+
+encoded_query = f'{keyword}+in+{location}'
+encoded_url = f'{place_endpoint}?q={encoded_query}'
+
+browser.get(encoded_url)
+
+more_places_button = browser.find_element_by_class_name("mNhnBb")
+more_places_button.click()
+time.sleep(4)                                             # pausing the program for 5 secs
+Selenium_extractor()

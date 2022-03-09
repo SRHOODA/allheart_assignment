@@ -26,6 +26,9 @@ encoded_query = f'{keyword}+in+{location}'
 encoded_url = f'{place_endpoint}?q={encoded_query}'
 response = requests.get(f'{encoded_url}') 
 
+# response = requests.get(f'https://www.google.com/maps/search/{encoded_query}/@28.6119787,77.1324426,12z') 
+# print(response.text)
+
 soup = BeautifulSoup(response.text, 'html.parser')
 
 # search_results = soup.title.get_text()
