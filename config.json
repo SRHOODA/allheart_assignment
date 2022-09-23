@@ -3,8 +3,8 @@
     {
       "place_endpoint": "https://www.google.com/search",
       "host": "localhost",
-      "user": "root",
-      "passwd": "python@123",
+      "user": "admin",
+      "passwd": "password",
       "database": "python",
       "api_key": "AIzaSyBLBe9b7P6ryXt6l5X6zCuYCw2RSXlij"
     }

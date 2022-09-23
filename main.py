@@ -1,4 +1,4 @@
-# pip install beautifulsoup4 requests mysql-connector
+# pip install beautifulsoup4 requests mysql-connector selenium
 
 from bs4 import BeautifulSoup
 import requests

@@ -1,5 +1,6 @@
 ######-----Data Extraction from Google Maps-----######################
-#Import neccesary libraries- pip install beautifulsoup4 selenium mysql-connector
+#Import neccesary libraries- pip install beautifulsoup4 selenium mysql-connector-python
+
 
 from selenium import webdriver              #driver to control chrome browser
 from bs4 import BeautifulSoup          #to parse the html code
@@ -21,7 +22,7 @@ db = mysql.connector.connect(
 )
 
 #intiate the chrome webdriver instance
-browser=webdriver.Chrome()           # chrome instance 
+browser=webdriver.Chrome(executable_path="/home/sahil/chromedriver")           # chrome instance 
 record=[]
 e=[]
 def Selenium_extractor():
@@ -98,7 +99,8 @@ encoded_url = f'{place_endpoint}?q={encoded_query}'
 
 browser.get(encoded_url)
 
-more_places_button = browser.find_element_by_class_name("mNhnBb")
+# more_places_button = browser.find_element_by_class_name("mNhnBb")
+more_places_button = browser.find_element_by_class_name("iNTie")
 more_places_button.click()
 time.sleep(4)                                             # pausing the program for 5 secs
 Selenium_extractor()

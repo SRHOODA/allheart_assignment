@@ -12,7 +12,8 @@ db = mysql.connector.connect(
     database = params['database']
 )
 
-my_cursor = db.cursor()
+# my_cursor = db.cursor(dictionary=True)
+my_cursor = db.cursor(buffered=True , dictionary=True)
 
 
 def checking():
@@ -28,6 +29,7 @@ def checking():
 
 
 output = checking()
+# print(f'output is- {output}')
 for t_data in output:
     print(t_data)
 # print(output)
